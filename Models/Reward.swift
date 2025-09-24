@@ -1,7 +1,7 @@
 import Foundation
 
-struct Reward: Identifiable {
-    let id = UUID()
+struct Reward: Identifiable, Codable {
+    let id: UUID
     let title: String
     let description: String
     let requiredPoints: Int

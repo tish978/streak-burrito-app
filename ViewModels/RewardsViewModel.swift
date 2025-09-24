@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 import Combine
 
 @MainActor
@@ -9,37 +10,20 @@ class RewardsViewModel: ObservableObject {
     private let pointsService: PointsService
     private var cancellables = Set<AnyCancellable>()
     
-    init(persistence: Persistence) {
-        self.pointsService = PointsService(persistence: persistence)
+    init(pointsService: PointsService) {
+        self.pointsService = pointsService
         
         // Initialize with mock rewards
         self.rewards = [
-            Reward(
-                title: "Free Chips & Salsa",
-                description: "Get a free side of chips and your choice of salsa",
-                requiredPoints: 100
-            ),
-            Reward(
-                title: "Free Guacamole",
-                description: "Add fresh guacamole to any order",
-                requiredPoints: 200
-            ),
-            Reward(
-                title: "Free Burrito",
-                description: "Any burrito of your choice with toppings",
-                requiredPoints: 500
-            ),
-            Reward(
-                title: "Free Meal",
-                description: "Any meal with drink and side included",
-                requiredPoints: 1000
-            ),
-            Reward(
-                title: "Catering Pack",
-                description: "Feed the whole team! Serves 10-12 people",
-                requiredPoints: 2000
-            )
+            Reward(id: UUID(), title: "Free Burrito", description: "Any burrito of your choice, on us!", requiredPoints: 500),
+            Reward(id: UUID(), title: "Free Drink", description: "Any fountain drink or bottled beverage", requiredPoints: 100),
+            Reward(id: UUID(), title: "Extra Protein", description: "Double the protein in any item", requiredPoints: 200),
+            Reward(id: UUID(), title: "Free Guacamole", description: "Add guacamole to any item for free", requiredPoints: 150),
+            Reward(id: UUID(), title: "Meal Deal", description: "Any combo meal with drink and side", requiredPoints: 750)
         ]
+        
+        // Sort rewards by required points
+        self.rewards.sort { $0.requiredPoints < $1.requiredPoints }
         
         setupBindings()
         updatePoints()
@@ -47,8 +31,9 @@ class RewardsViewModel: ObservableObject {
     
     private func setupBindings() {
         pointsService.$currentPoints
-            .sink { [weak self] _ in
-                self?.updatePoints()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] points in
+                self?.currentPoints = points
             }
             .store(in: &cancellables)
     }
@@ -57,12 +42,15 @@ class RewardsViewModel: ObservableObject {
         currentPoints = pointsService.currentPoints
     }
     
-    func canRedeemReward(_ reward: Reward) -> Bool {
+    func canRedeem(_ reward: Reward) -> Bool {
         return currentPoints >= reward.requiredPoints
     }
     
-    func redeemReward(_ reward: Reward) -> Bool {
-        guard canRedeemReward(reward) else { return false }
-        return pointsService.redeemPoints(reward.requiredPoints)
+    func redeemReward(_ reward: Reward) {
+        guard canRedeem(reward) else { return }
+        
+        if pointsService.redeemPoints(reward.requiredPoints) {
+            print("Successfully redeemed \(reward.title) for \(reward.requiredPoints) points")
+        }
     }
 }

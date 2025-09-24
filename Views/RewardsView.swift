@@ -1,44 +1,55 @@
 import SwiftUI
 
 struct RewardsView: View {
-    @StateObject var viewModel: RewardsViewModel
-    @State private var showingConfetti = false
+    @ObservedObject var viewModel: RewardsViewModel
+    @State private var showingRedeemAlert = false
+    @State private var selectedReward: Reward?
     
     var body: some View {
         ScrollView {
-            VStack(spacing: 16) {
-                // Points Display
-                Text("\(viewModel.currentPoints) pts")
-                    .font(.system(size: 36, weight: .heavy))
-                    .padding(.vertical, 24)
+            LazyVStack(spacing: 16) {
+                // Current Points Card
+                VStack(spacing: 8) {
+                    Text("\(viewModel.currentPoints)")
+                        .font(.system(size: 48, weight: .heavy))
+                    Text("AVAILABLE POINTS")
+                        .font(.system(size: 14, weight: .semibold))
+                        .foregroundColor(.secondary)
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 24)
+                .background(Color(.secondarySystemBackground))
+                .cornerRadius(20)
                 
                 // Rewards List
-                LazyVStack(spacing: 16) {
-                    ForEach(viewModel.rewards) { reward in
-                        RewardCard(
-                            reward: reward,
-                            canRedeem: viewModel.canRedeemReward(reward)
-                        ) {
-                            if viewModel.redeemReward(reward) {
-                                showingConfetti = true
-                                UINotificationFeedbackGenerator().notificationOccurred(.success)
-                                
-                                // Hide confetti after delay
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                                    showingConfetti = false
-                                }
-                            }
+                ForEach(viewModel.rewards) { reward in
+                    RewardCard(
+                        reward: reward,
+                        isAvailable: viewModel.canRedeem(reward),
+                        onRedeem: {
+                            selectedReward = reward
+                            showingRedeemAlert = true
                         }
-                    }
+                    )
                 }
             }
             .padding(16)
         }
         .background(Color(.systemBackground))
         .navigationTitle("Rewards")
-        .overlay {
-            if showingConfetti {
-                ConfettiView()
+        .alert("Redeem Reward?", isPresented: $showingRedeemAlert) {
+            Button("Cancel", role: .cancel) { }
+            Button("Redeem", role: .none) {
+                if let reward = selectedReward {
+                    withAnimation {
+                        viewModel.redeemReward(reward)
+                    }
+                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                }
+            }
+        } message: {
+            if let reward = selectedReward {
+                Text("Would you like to redeem \(reward.title) for \(reward.requiredPoints) points?")
             }
         }
     }
@@ -46,8 +57,9 @@ struct RewardsView: View {
 
 struct RewardCard: View {
     let reward: Reward
-    let canRedeem: Bool
+    let isAvailable: Bool
     let onRedeem: () -> Void
+    @State private var isPressed = false
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -64,58 +76,47 @@ struct RewardCard: View {
                 
                 Spacer()
                 
-                Button(action: onRedeem) {
-                    Text("Redeem")
+                Button(action: {
+                    if isAvailable {
+                        isPressed = true
+                        onRedeem()
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                            isPressed = false
+                        }
+                    }
+                }) {
+                    Text(isAvailable ? "Redeem" : "Locked")
                         .font(.system(size: 16, weight: .semibold))
-                        .foregroundColor(canRedeem ? .white : .gray)
-                        .frame(width: 100, height: 36)
-                        .background(canRedeem ? Color.blue : Color(.systemGray4))
+                        .foregroundColor(.white)
+                        .frame(width: 80, height: 36)
+                        .background(
+                            isAvailable
+                            ? (isPressed ? Color.blue.opacity(0.7) : Color.blue)
+                            : Color.gray
+                        )
                         .cornerRadius(18)
                 }
-                .disabled(!canRedeem)
+                .buttonStyle(PlainButtonStyle())
+                .disabled(!isAvailable)
             }
             
             Text("\(reward.requiredPoints) pts")
                 .font(.system(size: 16, weight: .medium))
-                .foregroundColor(canRedeem ? .green : .secondary)
+                .foregroundColor(isAvailable ? .green : .secondary)
         }
         .padding(16)
         .background(Color(.secondarySystemBackground))
         .cornerRadius(16)
+        .opacity(isAvailable ? 1.0 : 0.7)
     }
 }
 
-struct ConfettiView: View {
-    @State private var isAnimating = false
-    
-    var body: some View {
-        Canvas { context, size in
-            let colors: [Color] = [.red, .blue, .green, .yellow, .orange, .purple]
-            let particleSize: CGFloat = 8
-            let particleCount = 100
-            
-            for i in 0..<particleCount {
-                let position = CGPoint(
-                    x: CGFloat.random(in: 0...size.width),
-                    y: isAnimating ? size.height + 100 : -100
-                )
-                
-                let color = colors[i % colors.count]
-                let path = Path(ellipseIn: CGRect(x: position.x, y: position.y, width: particleSize, height: particleSize))
-                
-                context.fill(path, with: .color(color))
-            }
+struct RewardsView_Previews: PreviewProvider {
+    static var previews: some View {
+        NavigationView {
+            RewardsView(viewModel: RewardsViewModel(
+                pointsService: PointsService.shared
+            ))
         }
-        .onAppear {
-            withAnimation(.easeOut(duration: 3)) {
-                isAnimating = true
-            }
-        }
-    }
-}
-
-#Preview {
-    NavigationView {
-        RewardsView(viewModel: RewardsViewModel(persistence: DefaultPersistence()))
     }
 }

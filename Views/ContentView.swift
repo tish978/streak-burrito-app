@@ -27,7 +27,9 @@ struct ContentView: View {
             }
             
             NavigationView {
-                Text("Rewards Coming Soon!")
+                RewardsView(viewModel: RewardsViewModel(
+                    pointsService: pointsService
+                ))
             }
             .tabItem {
                 Label("Rewards", systemImage: "gift.fill")
