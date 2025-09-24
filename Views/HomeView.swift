@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 
 struct HomeView: View {
     @ObservedObject var viewModel: HomeViewModel
@@ -46,59 +47,40 @@ struct HomeView: View {
                 .shadow(color: .orange.opacity(0.3), radius: 8, y: 4)
                 
                 // Order Button
-                Button {
-                    viewModel.placeTestOrder()
-                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                } label: {
-                    Text("Place Test Order (+75)")
-                        .font(.system(size: 20, weight: .bold))
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 56)
-                        .background(Color.theme.accent)
-                        .foregroundColor(Color.theme.primaryText)
-                        .cornerRadius(28)
-                }
-                .shadow(color: .blue.opacity(0.3), radius: 8, y: 4)
+                Text("Place Test Order (+75)")
+                    .font(.system(size: 20, weight: .bold))
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 56)
+                    .background(Color.theme.accent)
+                    .foregroundColor(Color.theme.primaryText)
+                    .cornerRadius(28)
+                    .shadow(color: .blue.opacity(0.3), radius: 8, y: 4)
+                    .springPress(scale: 0.92, haptic: .medium) {
+                        viewModel.placeTestOrder()
+                    }
                 
-                // Action Buttons
-                HStack(spacing: 16) {
-                    Button {
+                // Test Notification Button
+                Text("Test Notification")
+                    .font(.system(size: 16, weight: .semibold))
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 44)
+                    .background(Color.theme.cardBackground)
+                    .foregroundColor(Color.theme.accent)
+                    .cornerRadius(18)
+                    .springPress(scale: 0.95, haptic: .light) {
                         viewModel.sendTestNotification()
-                    } label: {
-                        Text("Test Notification")
-                            .font(.system(size: 16, weight: .semibold))
-                            .frame(maxWidth: .infinity)
-                            .frame(height: 44)
-                            .background(Color.theme.cardBackground)
-                            .foregroundColor(Color.theme.accent)
-                            .cornerRadius(18)
                     }
-                    
-                    Button {
-                        viewModel.scheduleDailyReminder()
-                    } label: {
-                        Text("Daily Reminder")
-                            .font(.system(size: 16, weight: .semibold))
-                            .frame(maxWidth: .infinity)
-                            .frame(height: 44)
-                            .background(Color.theme.cardBackground)
-                            .foregroundColor(Color.theme.accent)
-                            .cornerRadius(18)
-                    }
-                }
-                .padding(16)
-                .glassBackground(opacity: 0.2)
+                    .padding(.horizontal, 24)
                 
                 // Reset Button
-                Button {
-                    showingResetAlert = true
-                } label: {
-                    Text("Reset Points")
-                        .font(.system(size: 16, weight: .semibold))
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 44)
-                        .foregroundColor(.red)
-                }
+                Text("Reset Points")
+                    .font(.system(size: 16, weight: .semibold))
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 44)
+                    .foregroundColor(.red)
+                    .springPress(scale: 0.95, haptic: UIImpactFeedbackGenerator.FeedbackStyle.rigid) {
+                        showingResetAlert = true
+                    }
             }
             .padding(24)
         }

@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 
 struct RewardsView: View {
     @ObservedObject var viewModel: RewardsViewModel
@@ -51,10 +52,7 @@ struct RewardsView: View {
             Button("Cancel", role: .cancel) { }
             Button("Redeem", role: .none) {
                 if let reward = selectedReward {
-                    withAnimation {
-                        viewModel.redeemReward(reward)
-                    }
-                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                    viewModel.redeemReward(reward)
                 }
             }
         } message: {
@@ -86,28 +84,18 @@ struct RewardCard: View {
                 
                 Spacer()
                 
-                Button(action: {
-                    if isAvailable {
-                        isPressed = true
-                        onRedeem()
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                            isPressed = false
+                Text(isAvailable ? "Redeem" : "Locked")
+                    .font(.system(size: 16, weight: .semibold))
+                    .foregroundColor(.white)
+                    .frame(width: 80, height: 36)
+                    .background(isAvailable ? Color.theme.accent : Color.gray)
+                    .cornerRadius(18)
+                    .springPress(scale: 0.92, haptic: .medium) {
+                        if isAvailable {
+                            onRedeem()
                         }
                     }
-                }) {
-                    Text(isAvailable ? "Redeem" : "Locked")
-                        .font(.system(size: 16, weight: .semibold))
-                        .foregroundColor(.white)
-                        .frame(width: 80, height: 36)
-                        .background(
-                            isAvailable
-                            ? (isPressed ? Color.blue.opacity(0.7) : Color.blue)
-                            : Color.gray
-                        )
-                        .cornerRadius(18)
-                }
-                .buttonStyle(PlainButtonStyle())
-                .disabled(!isAvailable)
+                    .opacity(isAvailable ? 1.0 : 0.7)
             }
             
             Text("\(reward.requiredPoints) pts")

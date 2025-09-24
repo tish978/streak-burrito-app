@@ -7,17 +7,32 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		675E50E92E83611A0037E61C /* GlassBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 675E50E72E83611A0037E61C /* GlassBackground.swift */; };
-		6722C42A2E844EC3004D44F6 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6722C4292E844EC3004D44F6 /* Colors.swift */; };
+		6722C42C2E844F13004D44F6 /* SpringButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6722C42B2E844F13004D44F6 /* SpringButton.swift */; };
+		6722C4302E844F13004D44F6 /* GlassBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6722C42F2E844F13004D44F6 /* GlassBackground.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		6722C4292E844EC3004D44F6 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
-		675E50E72E83611A0037E61C /* GlassBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlassBackground.swift; sourceTree = "<group>"; };
 		675E50E82E83611A0037E61C /* StreakBurrito.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StreakBurrito.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6722C42B2E844F13004D44F6 /* SpringButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SpringButton.swift; path = Views/Modifiers/SpringButton.swift; sourceTree = "<group>"; };
+		6722C42F2E844F13004D44F6 /* GlassBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GlassBackground.swift; path = Views/Modifiers/GlassBackground.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		6722C42D2E844F13004D44F6 /* Exceptions for "Modifiers" folder in "StreakBurrito" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				GlassBackground.swift,
+				SpringButton.swift,
+			);
+			target = 675E50712E835FD40037E61C /* StreakBurrito */;
+		};
+		6722C6092E8467D0004D44F6 /* Exceptions for "Theme" folder in "StreakBurrito" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Colors.swift,
+			);
+			target = 675E50712E835FD40037E61C /* StreakBurrito */;
+		};
 		675E50E42E83606C0037E61C /* Exceptions for "App" folder in "StreakBurrito" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -56,10 +71,18 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		6722C42E2E844F13004D44F6 /* Modifiers */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				6722C42D2E844F13004D44F6 /* Exceptions for "Modifiers" folder in "StreakBurrito" target */,
+			);
+			path = Modifiers;
+			sourceTree = "<group>";
+		};
 		6722C4282E844EC3004D44F6 /* Theme */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			children = (
-				6722C4292E844EC3004D44F6 /* Colors.swift */,
+			exceptions = (
+				6722C6092E8467D0004D44F6 /* Exceptions for "Theme" folder in "StreakBurrito" target */,
 			);
 			path = Theme;
 			sourceTree = "<group>";
@@ -129,7 +152,8 @@
 		6722C4272E844EC3004D44F6 /* Modifiers */ = {
 			isa = PBXGroup;
 			children = (
-				675E50E72E83611A0037E61C /* GlassBackground.swift */,
+				6722C42B2E844F13004D44F6 /* SpringButton.swift */,
+				6722C42F2E844F13004D44F6 /* GlassBackground.swift */,
 			);
 			path = Modifiers;
 			sourceTree = "<group>";
@@ -143,7 +167,7 @@
 				675E50CA2E83606C0037E61C /* Services */,
 				675E50CE2E83606C0037E61C /* ViewModels */,
 				675E50D42E83606C0037E61C /* Views */,
-				6722C4272E844EC3004D44F6 /* Modifiers */,
+				6722C42E2E844F13004D44F6 /* Modifiers */,
 				6722C4282E844EC3004D44F6 /* Theme */,
 				675E50E82E83611A0037E61C /* StreakBurrito.app */,
 				6722C4262E844EB3004D44F6 /* Recovered References */,
@@ -225,7 +249,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				675E50E92E83611A0037E61C /* GlassBackground.swift in Sources */,
-				6722C42A2E844EC3004D44F6 /* Colors.swift in Sources */,
+				6722C42C2E844F13004D44F6 /* SpringButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

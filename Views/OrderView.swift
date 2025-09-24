@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 
 struct OrderView: View {
     @ObservedObject var viewModel: OrderViewModel
@@ -8,10 +9,7 @@ struct OrderView: View {
             LazyVStack(spacing: 16) {
                 ForEach(viewModel.menuItems) { item in
                     MenuItemCard(item: item) {
-                        withAnimation {
-                            viewModel.purchaseItem(item)
-                        }
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                        viewModel.purchaseItem(item)
                     }
                 }
             }
@@ -52,21 +50,15 @@ struct MenuItemCard: View {
                 
                 Spacer()
                 
-                Button(action: {
-                    isPressed = true
-                    onBuy()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                        isPressed = false
+                Text("Buy")
+                    .font(.system(size: 16, weight: .semibold))
+                    .foregroundColor(.white)
+                    .frame(width: 80, height: 36)
+                    .background(Color.theme.accent)
+                    .cornerRadius(18)
+                    .springPress(scale: 0.92, haptic: .medium) {
+                        onBuy()
                     }
-                }) {
-                    Text("Buy")
-                        .font(.system(size: 16, weight: .semibold))
-                        .foregroundColor(.white)
-                        .frame(width: 80, height: 36)
-                        .background(isPressed ? Color.blue.opacity(0.7) : Color.blue)
-                        .cornerRadius(18)
-                }
-                .buttonStyle(PlainButtonStyle())
             }
             
             Text("+\(item.points) pts")
