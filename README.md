@@ -64,9 +64,9 @@ Hey! 👋 This is my take on a Chipotle-style rewards app built with SwiftUI. It
 Super easy to get started:
 1. Download or clone the repository
 2. Open `StreakBurrito.xcodeproj` in Xcode
-3. Wait for Xcode to finish indexing and processing the project
-4. Select your target device (iPhone simulator or connected device)
-5. Click the Run button (▶️) or press Cmd+R to build and run the app
+3. Select your target device (iPhone simulator or connected device)
+4. Click the Run button (▶️) or press Cmd+R to build and run the app
+5. Have fun! (It may take a minute to build and run the first time just FYI!)
 
 ### Requirements
 - Xcode 14.0 or later
