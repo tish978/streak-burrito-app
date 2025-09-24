@@ -1,0 +1,80 @@
+import SwiftUI
+
+struct OrderView: View {
+    @ObservedObject var viewModel: OrderViewModel
+    
+    var body: some View {
+        ScrollView {
+            LazyVStack(spacing: 16) {
+                ForEach(viewModel.menuItems) { item in
+                    MenuItemCard(item: item) {
+                        withAnimation {
+                            viewModel.purchaseItem(item)
+                        }
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                    }
+                }
+            }
+            .padding(16)
+        }
+        .background(Color(.systemBackground))
+        .navigationTitle("Menu")
+    }
+}
+
+struct MenuItemCard: View {
+    let item: MenuItem
+    let onBuy: () -> Void
+    @State private var isPressed = false
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(item.name)
+                        .font(.system(size: 18, weight: .semibold))
+                    
+                    Text(item.description)
+                        .font(.system(size: 14))
+                        .foregroundColor(.secondary)
+                        .lineLimit(2)
+                }
+                
+                Spacer()
+                
+                Button(action: {
+                    isPressed = true
+                    onBuy()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        isPressed = false
+                    }
+                }) {
+                    Text("Buy")
+                        .font(.system(size: 16, weight: .semibold))
+                        .foregroundColor(.white)
+                        .frame(width: 80, height: 36)
+                        .background(isPressed ? Color.blue.opacity(0.7) : Color.blue)
+                        .cornerRadius(18)
+                }
+                .buttonStyle(PlainButtonStyle())
+            }
+            
+            Text("+\(item.points) pts")
+                .font(.system(size: 16, weight: .medium))
+                .foregroundColor(.green)
+        }
+        .padding(16)
+        .background(Color(.secondarySystemBackground))
+        .cornerRadius(16)
+    }
+}
+
+struct OrderView_Previews: PreviewProvider {
+    static var previews: some View {
+        NavigationView {
+            OrderView(viewModel: OrderViewModel(
+                pointsService: PointsService.shared
+            ))
+        }
+    }
+}
