@@ -62,6 +62,26 @@ Hey! 👋 This is my take on a Chipotle-style rewards app built with SwiftUI. It
 ## 🔨 Want to Try It Out?
 
 Super easy to get started:
-1. Download the code
+1. Download or clone the repository
 2. Open `StreakBurrito.xcodeproj` in Xcode
-3. Hit run and try it out!
+3. Wait for Xcode to finish indexing and processing the project
+4. Select your target device (iPhone simulator or connected device)
+5. Click the Run button (▶️) or press Cmd+R to build and run the app
+
+### Requirements
+- Xcode 14.0 or later
+- iOS 15.0 or later
+- macOS Monterey or later for development
+
+### Troubleshooting
+If you encounter any issues:
+1. Clean the build folder (Cmd+Shift+K)
+2. Clean the build folder and remove derived data (Cmd+Shift+K, then Cmd+Option+Shift+K)
+3. Close Xcode and reopen the project
+4. Make sure you have the latest version of Xcode installed
+
+### Development
+- The project uses SwiftUI and follows the MVVM architecture
+- Preview Content is included for SwiftUI previews
+- Asset catalogs are organized by feature
+- The app supports both light and dark mode
