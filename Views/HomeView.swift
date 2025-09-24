@@ -19,19 +19,18 @@ struct HomeView: View {
                                 .contentTransition(.numericText())
                             Text("TOTAL POINTS")
                                 .font(.system(size: 13, weight: .semibold))
-                                .foregroundColor(.secondary)
+                                .foregroundColor(Color.theme.secondaryText)
                         }
                     }
                     
                     // Next Reward Text
                     Text("Next reward at \(viewModel.nextRewardPoints) pts")
                         .font(.system(size: 14, weight: .medium))
-                        .foregroundColor(.secondary)
+                        .foregroundColor(Color.theme.secondaryText)
                 }
                 .padding(32)
-                .background(Color(.systemBackground))
-                .cornerRadius(24)
-                .shadow(color: .black.opacity(0.1), radius: 12, x: 0, y: 4)
+                .glassBackground()
+                .shadow(color: Color(.sRGBLinear, white: 0, opacity: 0.1), radius: 12, x: 0, y: 4)
                 
                 // Streak Card
                 VStack(spacing: 8) {
@@ -42,9 +41,9 @@ struct HomeView: View {
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 24)
-                .background(Color.orange)
-                .foregroundColor(.white)
-                .cornerRadius(24)
+                .glassBackground(opacity: 0.4)
+                .foregroundColor(Color.theme.secondaryAccent)
+                .shadow(color: .orange.opacity(0.3), radius: 8, y: 4)
                 
                 // Order Button
                 Button {
@@ -55,8 +54,8 @@ struct HomeView: View {
                         .font(.system(size: 20, weight: .bold))
                         .frame(maxWidth: .infinity)
                         .frame(height: 56)
-                        .background(Color.blue)
-                        .foregroundColor(.white)
+                        .background(Color.theme.accent)
+                        .foregroundColor(Color.theme.primaryText)
                         .cornerRadius(28)
                 }
                 .shadow(color: .blue.opacity(0.3), radius: 8, y: 4)
@@ -70,8 +69,8 @@ struct HomeView: View {
                             .font(.system(size: 16, weight: .semibold))
                             .frame(maxWidth: .infinity)
                             .frame(height: 44)
-                            .background(Color(.systemBackground))
-                            .foregroundColor(.blue)
+                            .background(Color.theme.cardBackground)
+                            .foregroundColor(Color.theme.accent)
                             .cornerRadius(18)
                     }
                     
@@ -82,14 +81,13 @@ struct HomeView: View {
                             .font(.system(size: 16, weight: .semibold))
                             .frame(maxWidth: .infinity)
                             .frame(height: 44)
-                            .background(Color(.systemBackground))
-                            .foregroundColor(.blue)
+                            .background(Color.theme.cardBackground)
+                            .foregroundColor(Color.theme.accent)
                             .cornerRadius(18)
                     }
                 }
                 .padding(16)
-                .background(Color(.secondarySystemBackground))
-                .cornerRadius(20)
+                .glassBackground(opacity: 0.2)
                 
                 // Reset Button
                 Button {
@@ -104,7 +102,18 @@ struct HomeView: View {
             }
             .padding(24)
         }
-        .background(Color(.systemBackground))
+        .background(
+            LinearGradient(
+                gradient: Gradient(colors: [
+                    Color.theme.accent.opacity(0.2),
+                    Color.theme.secondaryAccent.opacity(0.1)
+                ]),
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            .ignoresSafeArea()
+        )
+        .preferredColorScheme(.dark)
         .navigationTitle("Streak Burrito")
         .alert("Reset Points?", isPresented: $showingResetAlert) {
             Button("Cancel", role: .cancel) { }
@@ -127,13 +136,13 @@ private struct ProgressRingView: View {
         ZStack {
             // Background ring
             Circle()
-                .stroke(Color(.systemGray6), lineWidth: 20)
+                .stroke(Color.theme.secondaryBackground, lineWidth: 20)
             
             // Progress ring
             Circle()
                 .trim(from: 0, to: CGFloat(min(progress, 1.0)))
                 .stroke(
-                    Color.blue,
+                    Color.theme.accent,
                     style: StrokeStyle(
                         lineWidth: 20,
                         lineCap: .round

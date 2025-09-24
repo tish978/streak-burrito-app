@@ -17,7 +17,17 @@ struct OrderView: View {
             }
             .padding(16)
         }
-        .background(Color(.systemBackground))
+        .background(
+            LinearGradient(
+                gradient: Gradient(colors: [
+                    Color.theme.accent.opacity(0.2),
+                    Color.theme.secondaryAccent.opacity(0.1)
+                ]),
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            .ignoresSafeArea()
+        )
         .navigationTitle("Menu")
     }
 }
@@ -64,8 +74,8 @@ struct MenuItemCard: View {
                 .foregroundColor(.green)
         }
         .padding(16)
-        .background(Color(.secondarySystemBackground))
-        .cornerRadius(16)
+        .glassBackground(opacity: 0.3)
+        .shadow(color: Color(.sRGBLinear, white: 0, opacity: 0.1), radius: 10, y: 2)
     }
 }
 

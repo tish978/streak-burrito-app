@@ -6,7 +6,14 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		675E50E92E83611A0037E61C /* GlassBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 675E50E72E83611A0037E61C /* GlassBackground.swift */; };
+		6722C42A2E844EC3004D44F6 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6722C4292E844EC3004D44F6 /* Colors.swift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
+		6722C4292E844EC3004D44F6 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		675E50E72E83611A0037E61C /* GlassBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlassBackground.swift; sourceTree = "<group>"; };
 		675E50E82E83611A0037E61C /* StreakBurrito.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StreakBurrito.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -49,6 +56,14 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		6722C4282E844EC3004D44F6 /* Theme */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			children = (
+				6722C4292E844EC3004D44F6 /* Colors.swift */,
+			);
+			path = Theme;
+			sourceTree = "<group>";
+		};
 		675E50C12E83606C0037E61C /* App */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -104,6 +119,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6722C4262E844EB3004D44F6 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
+		6722C4272E844EC3004D44F6 /* Modifiers */ = {
+			isa = PBXGroup;
+			children = (
+				675E50E72E83611A0037E61C /* GlassBackground.swift */,
+			);
+			path = Modifiers;
+			sourceTree = "<group>";
+		};
 		675E50692E835FD40037E61C = {
 			isa = PBXGroup;
 			children = (
@@ -113,7 +143,10 @@
 				675E50CA2E83606C0037E61C /* Services */,
 				675E50CE2E83606C0037E61C /* ViewModels */,
 				675E50D42E83606C0037E61C /* Views */,
+				6722C4272E844EC3004D44F6 /* Modifiers */,
+				6722C4282E844EC3004D44F6 /* Theme */,
 				675E50E82E83611A0037E61C /* StreakBurrito.app */,
+				6722C4262E844EB3004D44F6 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -191,6 +224,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				675E50E92E83611A0037E61C /* GlassBackground.swift in Sources */,
+				6722C42A2E844EC3004D44F6 /* Colors.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

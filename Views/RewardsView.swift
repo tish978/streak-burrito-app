@@ -18,8 +18,8 @@ struct RewardsView: View {
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 24)
-                .background(Color(.secondarySystemBackground))
-                .cornerRadius(20)
+                .glassBackground(opacity: 0.4)
+                .shadow(color: Color(.sRGBLinear, white: 0, opacity: 0.1), radius: 10, y: 2)
                 
                 // Rewards List
                 ForEach(viewModel.rewards) { reward in
@@ -35,7 +35,17 @@ struct RewardsView: View {
             }
             .padding(16)
         }
-        .background(Color(.systemBackground))
+        .background(
+            LinearGradient(
+                gradient: Gradient(colors: [
+                    Color.theme.secondaryAccent.opacity(0.2),
+                    Color.theme.accent.opacity(0.1)
+                ]),
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            .ignoresSafeArea()
+        )
         .navigationTitle("Rewards")
         .alert("Redeem Reward?", isPresented: $showingRedeemAlert) {
             Button("Cancel", role: .cancel) { }
@@ -105,8 +115,8 @@ struct RewardCard: View {
                 .foregroundColor(isAvailable ? .green : .secondary)
         }
         .padding(16)
-        .background(Color(.secondarySystemBackground))
-        .cornerRadius(16)
+        .glassBackground(opacity: isAvailable ? 0.3 : 0.15)
+        .shadow(color: Color(.sRGBLinear, white: 0, opacity: 0.1), radius: 10, y: 2)
         .opacity(isAvailable ? 1.0 : 0.7)
     }
 }
